@@ -17,8 +17,12 @@ class EmployeeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'role' => $this->position,
+            // 'user' => new UserResource($this->whenLoaded('user')),
+            'role' => $this->role,
             'restaurant_id' => $this->restaurant_id,
+            'name' => $this->user->name,
+            'email' => $this->user->email,
+            'user_id' => $this->user->id,
         ];
     }
 }
