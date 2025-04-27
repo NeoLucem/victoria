@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class DiningTable extends Model
+class Tablette extends Model
 {
-    //
     protected $keyType = 'string'; // Ensure the primary key is treated as a string
     public $incrementing = false; // Disable auto-incrementing for UUIDs
     protected $primaryKey = 'id'; // Specify the primary key field
@@ -15,6 +14,7 @@ class DiningTable extends Model
     protected $fillable = [
         'restaurant_id',
         'table_number',
+        'status'
     ];
 
     public function restaurant()

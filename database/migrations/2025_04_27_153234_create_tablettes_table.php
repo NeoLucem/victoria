@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dining_table', function (Blueprint $table) {
+        Schema::create('tablettes', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('restaurant_id')->constrained('restaurants')->onDelete('cascade');
             $table->integer('table_number')->unique();
+            $table->string('staus')->default('available'); //available, reseverded 
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dining_table');
+        Schema::dropIfExists('tablettes');
     }
 };
