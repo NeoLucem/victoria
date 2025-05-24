@@ -64,7 +64,20 @@ class User extends Authenticatable
         });
     }
 
-    public function user(){
+    public function owns(){
         return $this->hasMany(Restaurant::class, 'owner_id');
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function role(){
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole($role){
+        return $this->role()->where('name', $role)->exists();
     }
 }

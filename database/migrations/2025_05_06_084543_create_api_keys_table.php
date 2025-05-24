@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('api_keys', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('restaurant_id')->constrained('restaurants')->onDelete('cascade');
-            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
-            // $table->string('role')->default('employee');
-            $table->string('status')->default('active');
+            $table->string('key')->unique();
+            $table->string('description')->nullable();
+            $table->string('status')->default('active'); // active, inactive
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees');
+        Schema::dropIfExists('api_keys');
     }
 };

@@ -4,6 +4,7 @@ namespace App\Services\V1;
 
 use App\Models\Employee;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -26,14 +27,19 @@ class EmployeeService{
             $employee = Employee::create([
                 'user_id' => $user->id,
                 'restaurant_id' => $data['restaurant_id'],
-                'role' => $data['role'],
+                // 'role' => $data['role'],
+            ]);
+
+            $userRole = UserRole::create([
+                'user_id' => $user->id,
+                'role_id' => $data['role'],
             ]);
 
             //Log::info('Employee:', $employee->toArray()); // Ensure $employee is an object
             
             DB::commit();
 
-            return ['user' => $user, 'employee' => $employee];
+            return ['user' => $user, 'employee' => $employee, 'userRole' => $userRole];
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

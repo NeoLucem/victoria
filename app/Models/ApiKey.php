@@ -6,18 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Tablette extends Model
+class ApiKey extends Model
 {
     use HasFactory;
     
-    protected $keyType = 'string'; // Ensure the primary key is treated as a string
-    public $incrementing = false; // Disable auto-incrementing for UUIDs
-    protected $primaryKey = 'id'; // Specify the primary key field
-
     protected $fillable = [
         'restaurant_id',
-        'table_number',
-        'status'
+        'key',
+        'description',
+        'status',
+    ];
+
+    protected $casts = [
+        'restaurant_id' => 'uuid',
     ];
 
     public function restaurant()
@@ -25,14 +26,6 @@ class Tablette extends Model
         return $this->belongsTo(Restaurant::class);
     }
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
-    // public function reservations()
-    // {
-    //     return $this->hasMany(Reservation::class);
-    // }
     protected static function boot()
     {
         parent::boot();
@@ -41,6 +34,7 @@ class Tablette extends Model
         static::creating(function ($model) {
             if (empty($model->id)) {
                 $model->id = (string) Str::uuid();
+                $model->key = Str::random(32); // Generate a random key
             }
         });
     }

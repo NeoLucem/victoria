@@ -25,7 +25,7 @@ class StoreEmployeeRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string|max:100',
+            'role' => 'required|exists:roles,id',
             'restaurant_id' => 'required|exists:restaurants,id',
         ];
     }

@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use \Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Employee extends Model
+class Invoice extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id';
     protected $keyType = 'string'; // Ensure the primary key is treated as a string
     public $incrementing = false; // Disable auto-incrementing for UUIDs
-    protected $primaryKey = 'id'; // Specify the primary key field
 
     protected $fillable = [
-        'user_id',
+        'order_id',
         'restaurant_id',
-        // 'role',
+        'total_amount',
         'status',
     ];
 
@@ -26,9 +25,7 @@ class Employee extends Model
 
         // Automatically generate a UUID for the `id` field
         static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::uuid();
-            }
+            $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid();
         });
     }
 
@@ -37,8 +34,8 @@ class Employee extends Model
         return $this->belongsTo(Restaurant::class);
     }
 
-    public function user()
+    public function order()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Order::class);
     }
 }

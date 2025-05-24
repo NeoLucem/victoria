@@ -5,27 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class Restaurant extends Model
+
+class UserRole extends Model
 {
     use HasFactory;
-
     protected $keyType = 'string'; // Ensure the primary key is treated as a string
     public $incrementing = false; // Disable auto-incrementing for UUIDs
     protected $primaryKey = 'id'; // Specify the primary key field
 
     protected $fillable = [
+        'id',
         'user_id',
-        'name',
-        'address',
-        'city',
-        'email',
-        'phone',
-        'website',
-        'description',
-        'logo',
-        'cover_image',
-        'status'
+        'role_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 
     protected static function boot()
     {
@@ -39,16 +41,4 @@ class Restaurant extends Model
         });
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function employee(){
-        return $this->hasMany(Employee::class);
-    }
-
-    public function diningtable(){
-        return $this->hasMany(Tablette::class);
-    }
 }

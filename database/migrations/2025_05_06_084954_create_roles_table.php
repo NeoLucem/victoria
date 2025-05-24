@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tablettes', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('restaurant_id')->constrained('restaurants')->onDelete('cascade');
-            $table->integer('table_number');
-            $table->string('status')->default('available'); //available, reseverded 
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id()->primary();
+            $table->string('name')->unique(); // Role name
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tablettes');
+        Schema::dropIfExists('roles');
     }
 };

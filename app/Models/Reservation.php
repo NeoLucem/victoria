@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Tablette extends Model
+class Reservation extends Model
 {
     use HasFactory;
-    
+    protected $primaryKey = 'id';
     protected $keyType = 'string'; // Ensure the primary key is treated as a string
     public $incrementing = false; // Disable auto-incrementing for UUIDs
-    protected $primaryKey = 'id'; // Specify the primary key field
 
     protected $fillable = [
         'restaurant_id',
-        'table_number',
-        'status'
+        'tablette_id',
+        'user_id',
+        'reservation_date',
+        'status',
     ];
 
     public function restaurant()
@@ -25,23 +25,23 @@ class Tablette extends Model
         return $this->belongsTo(Restaurant::class);
     }
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
-    // public function reservations()
+    // public function tablette()
     // {
-    //     return $this->hasMany(Reservation::class);
+    //     return $this->belongsTo(Tablette::class);
     // }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
 
         // Automatically generate a UUID for the `id` field
         static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::uuid();
-            }
+            $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid();
         });
     }
 }

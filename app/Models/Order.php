@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class Restaurant extends Model
+
+class Order extends Model
 {
     use HasFactory;
 
@@ -14,16 +15,9 @@ class Restaurant extends Model
     protected $primaryKey = 'id'; // Specify the primary key field
 
     protected $fillable = [
-        'user_id',
-        'name',
-        'address',
-        'city',
-        'email',
-        'phone',
-        'website',
-        'description',
-        'logo',
-        'cover_image',
+        'restaurant_id',
+        'table_id',
+        'total_amount',
         'status'
     ];
 
@@ -39,16 +33,22 @@ class Restaurant extends Model
         });
     }
 
-    public function user()
+    public function restaurant()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Restaurant::class);
     }
 
-    public function employee(){
-        return $this->hasMany(Employee::class);
+    public function table()
+    {
+        return $this->belongsTo(Tablette::class);
     }
 
-    public function diningtable(){
-        return $this->hasMany(Tablette::class);
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
     }
+
+    // public function invoice(){
+    //     return $this->hasOne(Invoice::class);
+    // }
 }

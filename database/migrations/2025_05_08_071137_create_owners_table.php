@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('owners', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('restaurant_id')->constrained('restaurants')->onDelete('cascade');
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
-            // $table->string('role')->default('employee');
-            $table->string('status')->default('active');
+            $table->string('name'); // Owner's name
+            $table->string('email')->unique(); // Owner's email
+            $table->string('phone')->nullable(); // Owner's phone number
+            $table->string('address')->nullable(); // Owner's address
+            $table->string('profile_picture')->nullable(); // Owner's profile picture
+            $table->string('status')->default('active'); // Status of the owner (e.g., active, inactive)
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees');
+        Schema::dropIfExists('owners');
     }
 };

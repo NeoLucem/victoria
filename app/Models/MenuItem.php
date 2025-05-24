@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class Restaurant extends Model
+
+class MenuItem extends Model
 {
+
     use HasFactory;
 
     protected $keyType = 'string'; // Ensure the primary key is treated as a string
@@ -14,18 +16,26 @@ class Restaurant extends Model
     protected $primaryKey = 'id'; // Specify the primary key field
 
     protected $fillable = [
-        'user_id',
+        'menu_id',
         'name',
-        'address',
-        'city',
-        'email',
-        'phone',
-        'website',
         'description',
-        'logo',
-        'cover_image',
-        'status'
+        'price',
+        'status',
+        'image',
+        'category',
+        'preparation_time',
+        'stock',
     ];
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class);
+    }
+    
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }   
 
     protected static function boot()
     {
@@ -34,21 +44,8 @@ class Restaurant extends Model
         // Automatically generate a UUID for the `id` field
         static::creating(function ($model) {
             if (empty($model->id)) {
-                $model->id = (string) Str::uuid();
+                $model->id = (string) \Illuminate\Support\Str::uuid();
             }
         });
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function employee(){
-        return $this->hasMany(Employee::class);
-    }
-
-    public function diningtable(){
-        return $this->hasMany(Tablette::class);
     }
 }
